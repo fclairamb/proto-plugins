@@ -1,0 +1,32 @@
+name: test
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  schedule:
+    - cron: "0 5 * * 1"
+  workflow_dispatch:
+
+jobs:
+  install:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, ubuntu-24.04-arm, macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: moonrepo/setup-toolchain@v0
+        with:
+          auto-install: false
+      - name: Install sp with the plugin
+        shell: bash
+        run: |
+          printf '[plugins.tools]\nsp = "file://./sp.toml"\n' > .prototools
+          proto trust .prototools
+          proto install sp --pin local
+      - name: Run sp
+        shell: bash
+        run: |
+          proto run sp -- --version

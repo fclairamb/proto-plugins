@@ -1,0 +1,30 @@
+# SolidPing CLI (sp) plugin for proto: https://moonrepo.dev/proto
+name = "sp"
+type = "cli"
+
+[resolve]
+git-url = "https://github.com/fclairamb/solidping"
+version-pattern = "^v(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)$"
+
+[platform.linux]
+download-file = "sp-linux-{arch}.gz"
+exe-path = "sp-linux-{arch}"
+checksum-file = "sp-checksums.txt"
+
+[platform.macos]
+download-file = "sp-darwin-{arch}.gz"
+exe-path = "sp-darwin-{arch}"
+checksum-file = "sp-checksums.txt"
+
+[platform.windows]
+download-file = "sp-windows-{arch}.zip"
+exe-path = "sp.exe"
+checksum-file = "sp-checksums.txt"
+
+[install]
+download-url = "https://github.com/fclairamb/solidping/releases/download/v{version}/{download_file}"
+checksum-url = "https://github.com/fclairamb/solidping/releases/download/v{version}/{checksum_file}"
+
+[install.arch]
+x86_64 = "amd64"
+aarch64 = "arm64"
